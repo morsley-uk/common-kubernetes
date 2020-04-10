@@ -90,6 +90,6 @@ bash ${DIRECTORY}/print_divider.sh
 kubectl get nodes
 bash ${DIRECTORY}/print_divider.sh
 
-bash ${DIRECTORY}/footer.sh "RKE CLUSTER IS READY."
+bash ${DIRECTORY}/footer.sh "RKE CLUSTER IS READY"
 
 bash ${DIRECTORY}/are_deployments_ready.sh ${FOLDER}

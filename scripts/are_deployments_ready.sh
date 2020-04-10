@@ -80,11 +80,9 @@ are_deployments_ready () {
       
   done
     
-  bash ${DIRECTORY}/print_deployment_headers.sh
+  bash ${DIRECTORY}/print_deployment_header.sh
   echo ' '
-    
-  echo "${is_ready}"
-  
+      
   if [ "$is_ready" == "Yes" ]; then
     return 1
   fi 
@@ -126,4 +124,4 @@ else
 fi
 bash ${DIRECTORY}/print_divider.sh
 
-bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY."
+bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY"
