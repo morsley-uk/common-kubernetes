@@ -14,7 +14,7 @@ DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "ARE DEPLOYMENTS READY...?"
 
-if [[ ! -z "${FOLDER}" ]]; then   
+if [[ -z "${FOLDER}" ]]; then   
     echo "No FOLDER supplied."
     exit 666
 fi
