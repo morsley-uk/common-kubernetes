@@ -9,9 +9,11 @@
 FOLDER=$1
 NAMESPACE=$2
 
-DIRECTORY="$(dirname "$0")"
+#DIRECTORY="$(dirname "$0")"
 
-"${DIRECTORY}/header.sh" "ARE DEPLOYMENTS READY...?"
+#"${DIRECTORY}/header.sh" "ARE DEPLOYMENTS READY...?"
+
+bash header.sh "ARE DEPLOYMENTS READY...?"
 
 if [[ ! -z "${FOLDER}" ]]; then
     echo "No folder supplied."
