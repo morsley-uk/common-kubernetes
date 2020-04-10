@@ -9,11 +9,9 @@
 FOLDER=$1
 NAMESPACE=$2
 
-#DIRECTORY="$(dirname "$0")"
+DIRECTORY="$(dirname "$0")"
 
-#"${DIRECTORY}/header.sh" "ARE DEPLOYMENTS READY...?"
-
-bash header.sh "ARE DEPLOYMENTS READY...?"
+bash ${DIRECTORY}/header.sh "ARE DEPLOYMENTS READY...?"
 
 if [[ ! -z "${FOLDER}" ]]; then
     echo "No folder supplied."
@@ -31,7 +29,7 @@ fi
 are_deployments_ready () {
         
   echo ' '  
-  "${DIRECTORY}/print_deployment_headers.sh"
+  ${DIRECTORY}/print_deployment_headers.sh
   
   is_ready="Yes"
 
@@ -45,23 +43,23 @@ are_deployments_ready () {
     deployment_name=$(jq  -r '.metadata.name' <<< $deployment_json)
     
     ready=$(jq '.status.readyReplicas' <<< $deployment_json)
-    if "${DIRECTORY}/is_numeric.sh" $ready; then
+    if ${DIRECTORY}/is_numeric.sh $ready; then
       ready=0
     fi
     
     expected=$(jq '.spec.replicas' <<< $deployment_json)
     
     available=$(jq '.status.availableReplicas' <<< $deployment_json)
-    if "${DIRECTORY}/is_numeric.sh" $available; then
+    if ${DIRECTORY}/is_numeric.sh $available; then
       available=0
     fi
             
     updated=$(jq '.status.updatedReplicas' <<< $deployment_json)
-    if "${DIRECTORY}/is_numeric.sh" $updated; then
+    if ${DIRECTORY}/is_numeric.sh $updated; then
       updated=0
     fi
 
-    "${DIRECTORY}/print_deployment_row.sh" $ready $expected $available $updated $deployment_name
+    ${DIRECTORY}/print_deployment_row.sh $ready $expected $available $updated $deployment_name
       
     if [ $ready -ne $expected ]; then
       is_ready="No"  
@@ -69,7 +67,7 @@ are_deployments_ready () {
       
   done
     
-  "${DIRECTORY}/print_deployment_headers.sh"
+  ${DIRECTORY}/print_deployment_headers.sh
   echo ' '
     
   echo "${is_ready}"
@@ -103,16 +101,13 @@ done
   
 fi
 
-#while true; do
-#
-#    are_deployments_ready 
-#
-#    if [[ $? == 1 ]]; then
-#        break
-#    fi
-#
-#    sleep 10
-#
-#done
+bash ${DIRECTORY}/print_divider.sh
+echo "Get All Resources:"
+if [[ -z "${NAMESPACE}" ]]; then
+  kubectl get all --all-namespaces    
+else
+  kubectl get all --namespace ${NAMESPACE}
+fi
+bash ${DIRECTORY}/print_divider.sh
 
-"${DIRECTORY}/header.sh" "DEPLOYMENTS ARE READY"
+bash ${DIRECTORY}/header.sh "DEPLOYMENTS ARE READY"
