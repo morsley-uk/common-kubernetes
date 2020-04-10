@@ -1,12 +1,21 @@
 #!/bin/sh
 
-#set -x
+#                        _____             _                                  _         _____                _         ___  
+#       /\              |  __ \           | |                                | |       |  __ \              | |       |__ \ 
+#      /  \   _ __ ___  | |  | | ___ _ __ | | ___  _   _ _ __ ___   ___ _ __ | |_ ___  | |__) |___  __ _  __| |_   _     ) |
+#     / /\ \ | '__/ _ \ | |  | |/ _ \ '_ \| |/ _ \| | | | '_ ` _ \ / _ \ '_ \| __/ __| |  _  // _ \/ _` |/ _` | | | |   / / 
+#    / ____ \| | |  __/ | |__| |  __/ |_) | | (_) | |_| | | | | | |  __/ | | | |_\__ \ | | \ \  __/ (_| | (_| | |_| |  |_|  
+#   /_/    \_\_|  \___| |_____/ \___| .__/|_|\___/ \__, |_| |_| |_|\___|_| |_|\__|___/ |_|  \_\___|\__,_|\__,_|\__, |  (_)  
+#                                   | |             __/ |                                                       __/ |       
+#                                   |_|            |___/                                                       |___/        
 
-# PARAMETERS:
-# 1 --> Folder where kube_config.yaml is
-# 2 --> Namespace 
+# Requires:
+# - kubectl
+# - jq
 
-set -x
+# Expects:
+# 1 --> FOLDER (Required): The full path where the kube_config.yaml file is located.
+# 2 --> NAMESPACE (Optional): A Namespace to filter by. 
 
 FOLDER=$1
 NAMESPACE=$2
@@ -106,14 +115,15 @@ done
 fi
 
 bash ${DIRECTORY}/print_divider.sh
-echo "Get All Resources:"
 if [[ -z "${NAMESPACE}" ]]; then
-  kubectl get all --all-namespaces    
+    echo "kubectl get all --all-namespaces"
+    bash ${DIRECTORY}/print_divider.sh
+    kubectl get all --all-namespaces    
 else
-  kubectl get all --namespace ${NAMESPACE}
+    echo "kubectl get all --namespace ${NAMESPACE}"
+    bash ${DIRECTORY}/print_divider.sh
+    kubectl get all --namespace ${NAMESPACE}
 fi
 bash ${DIRECTORY}/print_divider.sh
 
-bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY"
-
-set +x
+bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY."

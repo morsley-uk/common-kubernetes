@@ -1,25 +1,22 @@
 #!/bin/bash
 
-#    _____        _____ _           _              _____                _      ___  
-#   |_   _|      / ____| |         | |            |  __ \              | |    |__ \ 
-#     | |  ___  | |    | |_   _ ___| |_ ___ _ __  | |__) |___  __ _  __| |_   _  ) |
-#     | | / __| | |    | | | | / __| __/ _ \ '__| |  _  // _ \/ _` |/ _` | | | |/ / 
-#    _| |_\__ \ | |____| | |_| \__ \ ||  __/ |    | | \ \  __/ (_| | (_| | |_| |_|  
-#   |_____|___/  \_____|_|\__,_|___/\__\___|_|    |_|  \_\___|\__,_|\__,_|\__, (_)  
-#                                                                         __/ |    
-#                                                                        |___/     
+#    _____        _____ _           _              _____                _         ___  
+#   |_   _|      / ____| |         | |            |  __ \              | |       |__ \ 
+#     | |  ___  | |    | |_   _ ___| |_ ___ _ __  | |__) |___  __ _  __| |_   _     ) |
+#     | | / __| | |    | | | | / __| __/ _ \ '__| |  _  // _ \/ _` |/ _` | | | |   / / 
+#    _| |_\__ \ | |____| | |_| \__ \ ||  __/ |    | | \ \  __/ (_| | (_| | |_| |  |_|  
+#   |_____|___/  \_____|_|\__,_|___/\__\___|_|    |_|  \_\___|\__,_|\__,_|\__, |  (_)  
+#                                                                          __/ |       
+#                                                                         |___/        
        
 # Requires:
 # - kubectl
 # - jq
 
 # Expects:
-# - FOLDER: The absolute path where the kube_config.yaml file is located. 
-
-set -x
+# 1 --> FOLDER (Required): The full path where the kube_config.yaml file is located.
 
 FOLDER=$1
-NAMESPACE=$2
 DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "IS RKE CLUSTER READY...?"
@@ -68,7 +65,8 @@ is_cluster_ready () {
 }  
 
 bash ${DIRECTORY}/print_divider.sh
-echo "Current Context:"
+echo "kubectl config current-context"
+bash ${DIRECTORY}/print_divider.sh
 kubectl config current-context
 bash ${DIRECTORY}/print_divider.sh
 
@@ -87,12 +85,11 @@ while true; do
 done
 
 bash ${DIRECTORY}/print_divider.sh
-echo "Node(s):"
+echo "kubectl get nodes"
+bash ${DIRECTORY}/print_divider.sh
 kubectl get nodes
 bash ${DIRECTORY}/print_divider.sh
 
 bash ${DIRECTORY}/footer.sh "RKE CLUSTER IS READY."
-
-set +x
 
 bash ${DIRECTORY}/are_deployments_ready.sh ${FOLDER}
