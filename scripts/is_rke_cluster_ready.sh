@@ -22,7 +22,7 @@ DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "IS RKE CLUSTER READY...?"
 
-if [ -z "${FOLDER}" ]; then
+if [[ -z "${FOLDER}" ]]; then
   echo "No FOLDER supplied."
   exit 666
 fi
