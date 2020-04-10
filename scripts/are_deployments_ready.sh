@@ -6,6 +6,8 @@
 # 1 --> Folder where kube_config.yaml is
 # 2 --> Namespace 
 
+set -x
+
 FOLDER=$1
 NAMESPACE=$2
 DIRECTORY="$(dirname "$0")"
@@ -113,3 +115,5 @@ fi
 bash ${DIRECTORY}/print_divider.sh
 
 bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY"
+
+set +x

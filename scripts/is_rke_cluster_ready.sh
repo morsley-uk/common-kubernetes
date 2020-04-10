@@ -16,6 +16,8 @@
 # Expects:
 # - FOLDER: The absolute path where the kube_config.yaml file is located. 
 
+set -x
+
 FOLDER=$1
 NAMESPACE=$2
 DIRECTORY="$(dirname "$0")"
@@ -65,8 +67,8 @@ is_cluster_ready () {
 
 }  
 
-echo "Current Context:"
 bash ${DIRECTORY}/print_divider.sh
+echo "Current Context:"
 kubectl config current-context
 bash ${DIRECTORY}/print_divider.sh
 
@@ -90,5 +92,7 @@ kubectl get nodes
 bash ${DIRECTORY}/print_divider.sh
 
 bash ${DIRECTORY}/footer.sh "RKE CLUSTER IS READY."
+
+set +x
 
 bash ${DIRECTORY}/are_deployments_ready.sh ${FOLDER}
