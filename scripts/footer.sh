@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+#!/bin/sh
 
 FOOTER_TEXT=$1
 

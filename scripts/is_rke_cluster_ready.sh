@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 
 #    _____        _____ _           _              _____                _      ___  
 #   |_   _|      / ____| |         | |            |  __ \              | |    |__ \ 
@@ -64,9 +64,9 @@ is_cluster_ready () {
 }  
 
 echo "Current Context:"
-bash print_divider.sh
+bash ${DIRECTORY}/print_divider.sh
 kubectl config current-context
-bash print_divider.sh
+bash ${DIRECTORY}/print_divider.sh
 
 echo "Are node(s) up...?"
 
@@ -78,7 +78,7 @@ while true; do
         break
     fi
 
-    sleep 30
+    sleep 10
 
 done
 
