@@ -8,28 +8,30 @@
 
 FOLDER=$1
 NAMESPACE=$2
-
 DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "ARE DEPLOYMENTS READY...?"
 
-if [[ ! -z "${FOLDER}" ]]; then
-    echo "No folder supplied."
-    export KUBECONFIG=${FOLDER}/kube_config.yaml
+if [[ ! -z "${FOLDER}" ]]; then   
+    echo "No FOLDER supplied."
+    exit 666
 fi
+echo "FOLDER: " ${FOLDER}
+
+export KUBECONFIG=${FOLDER}/kube_config.yaml
 
 if [[ -z "${NAMESPACE}" ]]; then
     echo "No namespace supplied."
     GET_DEPLOYMENTS="kubectl get deployments --all-namespaces --output json"
 else
-    echo "Namespace: " ${NAMESPACE}
+    echo "NAMESPACE: " ${NAMESPACE}
     GET_DEPLOYMENTS="kubectl get deployments --namespace ${NAMESPACE} --output json"
 fi
 
 are_deployments_ready () {
         
   echo ' '  
-  ${DIRECTORY}/print_deployment_headers.sh
+  bash ${DIRECTORY}/print_deployment_headers.sh
   
   is_ready="Yes"
 
@@ -43,23 +45,23 @@ are_deployments_ready () {
     deployment_name=$(jq  -r '.metadata.name' <<< $deployment_json)
     
     ready=$(jq '.status.readyReplicas' <<< $deployment_json)
-    if ${DIRECTORY}/is_numeric.sh $ready; then
+    if bash ${DIRECTORY}/is_numeric.sh $ready; then
       ready=0
     fi
     
     expected=$(jq '.spec.replicas' <<< $deployment_json)
     
     available=$(jq '.status.availableReplicas' <<< $deployment_json)
-    if ${DIRECTORY}/is_numeric.sh $available; then
+    if bash "${DIRECTORY}/is_numeric.sh" $available; then
       available=0
     fi
             
     updated=$(jq '.status.updatedReplicas' <<< $deployment_json)
-    if ${DIRECTORY}/is_numeric.sh $updated; then
+    if bash "${DIRECTORY}/is_numeric.sh" $updated; then
       updated=0
     fi
 
-    ${DIRECTORY}/print_deployment_row.sh $ready $expected $available $updated $deployment_name
+    bash ${DIRECTORY}/print_deployment_row.sh $ready $expected $available $updated $deployment_name
       
     if [ $ready -ne $expected ]; then
       is_ready="No"  
@@ -67,7 +69,7 @@ are_deployments_ready () {
       
   done
     
-  ${DIRECTORY}/print_deployment_headers.sh
+  bash ${DIRECTORY}/print_deployment_headers.sh
   echo ' '
     
   echo "${is_ready}"
@@ -110,4 +112,4 @@ else
 fi
 bash ${DIRECTORY}/print_divider.sh
 
-bash ${DIRECTORY}/header.sh "DEPLOYMENTS ARE READY"
+bash ${DIRECTORY}/footer.sh "DEPLOYMENTS ARE READY"

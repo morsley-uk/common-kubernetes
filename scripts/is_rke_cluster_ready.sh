@@ -16,12 +16,14 @@
 # Expects:
 # - FOLDER: The absolute path where the kube_config.yaml file is located. 
 
+FOLDER=$1
+NAMESPACE=$2
 DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "IS RKE CLUSTER READY...?"
 
 if [ -z "${FOLDER}" ]; then
-  echo "Expected FOLDER to point to the location of the kube_config.yaml file!"
+  echo "No FOLDER supplied."
   exit 666
 fi
 echo "FOLDER: ${FOLDER}"
