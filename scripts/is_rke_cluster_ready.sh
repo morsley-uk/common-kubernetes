@@ -82,4 +82,14 @@ while true; do
 
 done
 
+echo "Node(s):"
+bash ${DIRECTORY}/print_divider.sh
+kubectl get nodes
+bash ${DIRECTORY}/print_divider.sh
+
+echo "Everything:"
+bash ${DIRECTORY}/print_divider.sh
+kubectl get all --all-namespaces
+bash ${DIRECTORY}/print_divider.sh
+
 bash ${DIRECTORY}/footer.sh "CLUSTER RKE IS READY."
