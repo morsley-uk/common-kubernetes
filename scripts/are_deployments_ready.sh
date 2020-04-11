@@ -23,25 +23,26 @@ DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "ARE DEPLOYMENTS READY...?"
 
+bash ${DIRECTORY}/print_divider.sh
 if [[ -z "${FOLDER}" ]]; then   
     echo "No FOLDER supplied."
     exit 666
 fi
-echo "FOLDER: " ${FOLDER}
-
-export KUBECONFIG=${FOLDER}/kube_config.yaml
+echo "FOLDER:" ${FOLDER}
 
 if [[ -z "${NAMESPACE}" ]]; then
     echo "No namespace supplied."
     GET_DEPLOYMENTS="kubectl get deployments --all-namespaces --output json"
 else
-    echo "NAMESPACE: " ${NAMESPACE}
+    echo "NAMESPACE:" ${NAMESPACE}
     GET_DEPLOYMENTS="kubectl get deployments --namespace ${NAMESPACE} --output json"
 fi
+bash ${DIRECTORY}/print_divider.sh
+
+export KUBECONFIG=${FOLDER}/kube_config.yaml
 
 are_deployments_ready () {
         
-  echo ' '  
   bash ${DIRECTORY}/print_deployment_headers.sh
   
   is_ready="Yes"
@@ -81,7 +82,6 @@ are_deployments_ready () {
   done
     
   bash ${DIRECTORY}/print_deployment_header.sh
-  echo ' '
       
   if [ "$is_ready" == "Yes" ]; then
     return 1

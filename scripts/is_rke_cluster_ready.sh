@@ -21,11 +21,15 @@ DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "IS RKE CLUSTER READY...?"
 
+bash ${DIRECTORY}/print_divider.sh
+
 if [[ -z "${FOLDER}" ]]; then
   echo "No FOLDER supplied."
   exit 666
 fi
 echo "FOLDER: ${FOLDER}"
+
+bash ${DIRECTORY}/print_divider.sh
 
 export KUBECONFIG=${FOLDER}/kube_config.yaml         
 
