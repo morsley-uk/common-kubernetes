@@ -4,17 +4,10 @@ FOOTER_TEXT=$1
 
 LengthOfFooterText=${#FOOTER_TEXT}
 
-echo '#'
-echo '#'
-echo '#'
-echo '# ##############################################################################'
-echo -n '#' ${FOOTER_TEXT}
-for (( i=1; i<=76-LengthOfFooterText; i++ ))
+for (( i=1; i<=78-LengthOfFooterText; i++ ))
 do  
-   echo -n " "
+   echo -n "-"
 done
-echo ' #'  
-echo '################################################################################'
-echo ' '
+echo "> ${FOOTER_TEXT}"
 
 exit 0

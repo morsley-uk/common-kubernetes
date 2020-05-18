@@ -1,34 +1,46 @@
 #!/bin/sh
 
-#                        _____             _                                  _         _____                _         ___  
-#       /\              |  __ \           | |                                | |       |  __ \              | |       |__ \ 
-#      /  \   _ __ ___  | |  | | ___ _ __ | | ___  _   _ _ __ ___   ___ _ __ | |_ ___  | |__) |___  __ _  __| |_   _     ) |
-#     / /\ \ | '__/ _ \ | |  | |/ _ \ '_ \| |/ _ \| | | | '_ ` _ \ / _ \ '_ \| __/ __| |  _  // _ \/ _` |/ _` | | | |   / / 
-#    / ____ \| | |  __/ | |__| |  __/ |_) | | (_) | |_| | | | | | |  __/ | | | |_\__ \ | | \ \  __/ (_| | (_| | |_| |  |_|  
-#   /_/    \_\_|  \___| |_____/ \___| .__/|_|\___/ \__, |_| |_| |_|\___|_| |_|\__|___/ |_|  \_\___|\__,_|\__,_|\__, |  (_)  
-#                                   | |             __/ |                                                       __/ |       
-#                                   |_|            |___/                                                       |___/        
+#         /\             
+#        /  \   _ __ ___ 
+#       / /\ \ | '__/ _ \
+#      / ____ \| | |  __/
+#     /_/    \_\_|  \___|                       
+#           _____             _                                  _       
+#          |  __ \           | |                                | |      
+#          | |  | | ___ _ __ | | ___  _   _ _ __ ___   ___ _ __ | |_ ___ 
+#          | |  | |/ _ \ '_ \| |/ _ \| | | | '_ ` _ \ / _ \ '_ \| __/ __|
+#          | |__| |  __/ |_) | | (_) | |_| | | | | | |  __/ | | | |_\__ \
+#          |_____/ \___| .__/|_|\___/ \__, |_| |_| |_|\___|_| |_|\__|___/
+#                      | |   _____     __/ |      _         ___                               
+#                      |_|  |  __ \   |___/      | |       |__ \ 
+#                           | |__) |___  __ _  __| |_   _     ) |
+#                           |  _  // _ \/ _` |/ _` | | | |   / / 
+#                           | | \ \  __/ (_| | (_| | |_| |  |_|  
+#                           |_|  \_\___|\__,_|\__,_|\__, |  (_)  
+#                                                    __/ |       
+#                                                   |___/        
 
 # Requires:
 # - kubectl
 # - jq
 
 # Expects:
-# 1 --> FOLDER (Required): The full path where the kube_config.yaml file is located.
+# 1 --> KUBE_CONGIG_FOLDER (Required): The full path where the kube_config.yaml file is located.
 # 2 --> NAMESPACE (Optional): A Namespace to filter by. 
 
-FOLDER=$1
+KUBE_CONGIG_FOLDER=$1
 NAMESPACE=$2
 DIRECTORY="$(dirname "$0")"
 
 bash ${DIRECTORY}/header.sh "ARE DEPLOYMENTS READY...?"
+echo "DIRECTORY: ${DIRECTORY}"
 
 bash ${DIRECTORY}/print_divider.sh
-if [[ -z "${FOLDER}" ]]; then   
-    echo "No FOLDER supplied."
+if [[ -z "${KUBE_CONGIG_FOLDER}" ]]; then   
+    echo "No KUBE_CONGIG_FOLDER supplied."
     exit 666
 fi
-echo "FOLDER:" ${FOLDER}
+echo "KUBE_CONGIG_FOLDER:" ${KUBE_CONGIG_FOLDER}
 
 if [[ -z "${NAMESPACE}" ]]; then
     echo "No namespace supplied."
@@ -39,7 +51,9 @@ else
 fi
 bash ${DIRECTORY}/print_divider.sh
 
-export KUBECONFIG=${FOLDER}/kube_config.yaml
+export KUBECONFIG=${KUBE_CONGIG_FOLDER}/kube-config.yaml
+
+#kubectl get nodes
 
 are_deployments_ready () {
         
